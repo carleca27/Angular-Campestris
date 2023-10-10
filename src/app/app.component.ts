@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { usuario } from './usuario.model';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +10,41 @@ import { usuario } from './usuario.model';
 export class AppComponent {
   
   users: usuario[]=[
-    new usuario ("Osama bin Laden"),
-    new usuario ("Naruto Uzumaki"),
-    new usuario ("Junker Otto Eduard Leopold von Bismark")
+    new usuario ("Osama bin Laden", "califatodeAfganistán@bombmail.com"),
+    new usuario ("Naruto Uzumaki", "konohanohokage@rasengan-mail.com"),
+    new usuario ("Junker Otto Eduard Leopold von Bismark", "hitlergranny@hotmail.com")
   ]
 
-  // users = [
-  //   {ID:1, name: "Osama bin Laden"},
-  //   {ID:2, name: "Naruto Uzumaki"},
-  //   {ID:3, name: "Junker Otto Eduard Leopold von Bismarck"}
-  // ];
-
   cuadroNombre:string="";
-agregarSe: any;
+  cuadroEmail:string="";
 
   agregar_usuario(){
-    let mi_usuario = new usuario(this.cuadroNombre);
-    this.users.push(mi_usuario);
+    let mi_usuario = new usuario(this.cuadroNombre, this.cuadroEmail);
+    this.users.push(mi_usuario);  
+    }
+       
+  vacio: string="";
+  mostrar_vacio: boolean=false;
+  rojo_nombre: boolean=false;
+  rojo_email: boolean=false;
+
+  process_button(){
+    if (this.cuadroNombre==="" || this.cuadroEmail==="")
+      {
+      this.mostrar_vacio=true; 
+      this.vacio="Te faltan cosas, perro o perra judío o judía.";
+      }
+    else 
+      {
+      this.mostrar_vacio=false;
+      this.agregar_usuario();
+      this.vacio="";
+      }
+
+      if (this.cuadroNombre==="") {this.rojo_nombre=true}
+      else {this.rojo_nombre=false}
+
+      if (this.cuadroEmail==="") {this.rojo_email=true}
+      else {this.rojo_email=false}
   }
 }

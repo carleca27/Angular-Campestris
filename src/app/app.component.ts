@@ -16,11 +16,28 @@ export class AppComponent {
   ]
 
   cuadroNombre:string="";
+
   cuadroEmail:string="";
 
+  cuadroFoto: File | undefined;
+  onFileSelected(event:any){
+    const file: File = event.target.files[0];
+    this.cuadroFoto = file;
+  }
+
   agregar_usuario(){
-    let mi_usuario = new usuario(this.cuadroNombre, this.cuadroEmail);
+    let mi_usuario = new usuario(this.cuadroNombre, this.cuadroEmail, this.cuadroFoto);
     this.users.push(mi_usuario);  
+    }
+
+    getUrl(file: File): string | ArrayBuffer | null {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        return reader.result;
+      };
+  
+      return null;
     }
        
   vacio: string="";

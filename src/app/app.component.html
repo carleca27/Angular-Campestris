@@ -8,7 +8,7 @@
 
   <br>
 
-  <form class="form-group row">
+  <form class="form-group row" enctype="multipart/form-data">
 
     <div class="form-group col-md-3">
       <label for="nombre">Nombre:</label>
@@ -17,11 +17,15 @@
         [(ngModel)]="cuadroNombre"
         [class.input-rojo]="rojo_nombre"
       />
+      <label for="email">Email:</label>
       <input
         type="text" name="email" id="email" placeholder="Email" class="form-control"
         [(ngModel)]="cuadroEmail"
         [class.input-rojo]="rojo_email"  
       >
+      <label for="foto">Foto:</label>
+      <input
+        type="file" name="foto" id="foto" class="form-control" (change)="onFileSelected($event)">
     </div>
 
     <br>
@@ -42,7 +46,8 @@
     <div class="row">
       <div class="col">
         <div *ngFor="let user of users; let i=index">
-          {{i+1}}: {{user.nombre}}; {{user.email}}
+          {{i+1}}: {{user.nombre}} ---- {{user.email}}
+          <img *ngIf="user.foto" [src]="getUrl(user.foto)" alt="{{user.foto}}">
         </div>
       </div>
     </div>

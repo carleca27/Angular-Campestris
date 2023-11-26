@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { usuario } from './usuario.model';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,14 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  get username() {
+    return this.userData.get('username')
+  }
+  
+  get email() {
+    return this.userData.get('email')
+  }
   
   users: usuario[]=[
     new usuario ("Osama bin Laden", "califatodeAfganistán@bombmail.com"),
@@ -15,9 +23,19 @@ export class AppComponent {
     new usuario ("Junker Otto Eduard Leopold von Bismark", "hitlergranny@hotmail.com")
   ]
 
-  cuadroNombre:string="";
+  userData = new FormGroup({
+    username: new FormControl('', [
+      Validators.required
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+    ]),
+  });
+  
 
-  cuadroEmail:string="";
+  cuadroNombre:string = '';
+  cuadroEmail:string = '';
 
   cuadroFoto: File | undefined;
   onFileSelected(event:any){
@@ -26,19 +44,19 @@ export class AppComponent {
   }
 
   agregar_usuario(){
-    let mi_usuario = new usuario(this.cuadroNombre, this.cuadroEmail, this.cuadroFoto);
+    let mi_usuario = new usuario(this.cuadroNombre ?? '', this.cuadroEmail ?? '', this.cuadroFoto);
     this.users.push(mi_usuario);  
-    }
+  }
 
-    getUrl(file: File): string | ArrayBuffer | null {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        return reader.result;
-      };
-  
-      return null;
-    }
+  getUrl(file: File): string | ArrayBuffer | null {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      return reader.result;
+    };
+
+    return null;
+  }
        
   vacio: string="";
   mostrar_vacio: boolean=false;
@@ -48,14 +66,14 @@ export class AppComponent {
   process_button(){
     if (this.cuadroNombre==="" || this.cuadroEmail==="")
       {
-      this.mostrar_vacio=true; 
-      this.vacio="Te faltan cosas, perro o perra judío o judía.";
+        this.mostrar_vacio=true; 
+        this.vacio="Te faltan cosas, perro o perra judío o judía.";
       }
     else 
       {
-      this.mostrar_vacio=false;
-      this.agregar_usuario();
-      this.vacio="";
+        this.mostrar_vacio=false;
+        this.agregar_usuario();
+        this.vacio="";
       }
 
       if (this.cuadroNombre==="") {this.rojo_nombre=true}
